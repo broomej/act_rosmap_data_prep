@@ -1,2 +1,3 @@
 # act_rosmap_data_prep
-Code and logs for preparing ACT1/ACT3 and ROSMAP datasets for analysis
+
+[See this repo in Github Pages](https://broomej.github.io/act_rosmap_data_prep/)
