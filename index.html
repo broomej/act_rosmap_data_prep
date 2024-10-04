@@ -1,10 +1,14 @@
-<p>Pages in this repo:</p>
+<h1 id="act-and-rosmap-imputed-data-preparation">ACT and ROSMAP imputed data preparation</h1>
+<p>This is the code and output we used to process the imputed ACT1/ACT3 and ROSMAP1/ROSMAP2 datasets. Below are brief descriptions of each step, which are more or less in order.</p>
+<h2 id="pages-in-this-repo-">Pages in this repo:</h2>
 <ul>
-<li><a href="1_make_act_exclude_lists.html">1_make_act_exclude_lists.html</a></li>
-<li><a href="2_filter_act_vcfs.html">2_filter_act_vcfs.html</a></li>
-<li><a href="3_process_dbsnp.html">3_process_dbsnp.html</a></li>
-<li><a href="4_map_act_rsids.html">4_map_act_rsids.html</a></li>
-<li><a href="4a_map_rsids.sh">4a_map_rsids.sh</a></li>
-<li><a href="5_merge_rosmap.html">5_merge_rosmap.html</a></li>
-<li><a href="6_split_rosmap.html">6_split_rosmap.html</a></li>
+<li><a href="1_make_act_exclude_lists.html">1_make_act_exclude_lists.html</a>—The ACT data was not already filtered by imputation quality. In this step, we generate a list of SNPs to exclude with a threshold of <code>AvgCall &lt; 0.95</code> OR <code>Rsq &lt; 0.8</code> in the info files.</li>
+<li><a href="2_filter_act_vcfs.html">2_filter_act_vcfs.html</a>—Using the exclusion lists in the previous step, use vcftools to create subsetted, bgzipped copies of the ACT VCFs.</li>
+<li><a href="3_process_dbsnp.html">3_process_dbsnp.html</a>—Before we can map rsIDs onto the ACT data, we have to update the chromosome labeling the dbSNP data we downloaded from their RefSeq accession IDs to numbered chromosome labels.</li>
+<li><a href="4_map_act_rsids.html">4_map_act_rsids.html</a>—With the modified dbSNP download, update the SNP ID field in the ACT datasets to rsIDs.</li>
+<li><a href="https://github.com/broomej/act_rosmap_data_prep/blob/main/4a_map_rsids.sh">4a_map_rsids.sh</a> (note: this is a shell script, not a rendered RMarkdown document)—I forgot to include this in the previous document, so I uploaded it here for posterity. </li>
+<li><a href="5_merge_rosmap.html">5_merge_rosmap.html</a>—The ROSMAP data was already filtered, so the first step is to merge the ROSMAP1 with the ROSMAP2 data. We had to remove 775 multiallelic variants before we could merge the two datasets.</li>
+<li><a href="6_split_rosmap.html">6_split_rosmap.html</a>—We often want to work with data split by chromosome, so we finish with that step here.</li>
 </ul>
+<h2 id="a-note-on-indexed-vcf-files">A note on indexed VCF files</h2>
+<p>Many programs want your compressed VCF files to be compressed with bgzip rather than gzip, and they&#39;ll need a corresponding <code>*.vcf.gz.tbi</code> index file generated with tabix. All the files I&#39;ve shared should have the corresponding index files, but I often forget this final step when I&#39;m running an RMarkdown document, so the code to do it is missing in some of them (for example, 2_filter_act_vcfs.html). This step is much faster than most other steps here, and the command is simple: <code>tabix FILE.vcf.gz</code> will generate the index file <code>FILE.vcf.gz.tbi</code> for the bgzipped VCF <code>FILE.vcf.gz</code></p>
